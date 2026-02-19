@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr" id="main-html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2AC Collège - App Download</title>
+    <link rel="icon" href="app-ico.png" type="image/png">
+    <style>
+        :root {
+            --primary: #1e293b;
+            --accent: #3b82f6;
+            --whatsapp: #25d366;
+            --telegram: #0088cc;
+            --bg: #f8fafc;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            background: var(--bg); 
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        /* زر تبديل اللغة */
+        .lang-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        #lang-btn {
+            padding: 10px 25px;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* القسم العلوي */
+        .hero {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .app-icon {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 22px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+        /* حاوية التحميل */
+        .download-container {
+            margin: -50px auto 40px;
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .btn-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .download-btn {
+            padding: 18px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .android { background: #3DDC84; }
+        .windows { background: #0078d4; }
+        .download-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
+        /* المميزات */
+        .section-title { text-align: center; margin-top: 60px; font-size: 1.8rem; }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .feature-card .icon { font-size: 40px; margin-bottom: 10px; }
+
+        /* المعاينة (Screenshots) */
+        .screenshots-wrapper {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scroll-behavior: smooth;
+        }
+        .screen-card {
+            flex: 0 0 220px;
+            background: #fff;
+            border-radius: 15px;
+            border: 4px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .screen-card img { width: 100%; border-radius: 10px; }
+        .screen-card p { padding: 10px; margin: 0; font-weight: bold; font-size: 0.9rem; }
+
+        /* التواصل */
+        .contact-section {
+            background: #fff;
+            padding: 40px;
+            border-radius: 25px;
+            margin: 60px 0;
+            text-align: center;
+            border: 2px dashed #cbd5e1;
+        }
+        .contact-btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .c-btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .whatsapp { background: var(--whatsapp); }
+        .telegram { background: var(--telegram); }
+
+        footer { text-align: center; padding: 40px; color: #94a3b8; }
+
+        /* RTL التنسيق العربي */
+        [dir="rtl"] .lang-switcher { right: auto; left: 20px; }
+    </style>
+</head>
+<body dir="ltr">
+
+<div class="lang-switcher">
+    <button id="lang-btn" onclick="toggleLanguage()">العربية</button>
+</div>
+
+<section class="hero">
+    <div class="app-icon">
+        <img src="app-ico.png" alt="App Icon" style="width: 60%; height: 60%;">
+    </div>
+    <h1 id="title">Application 2AC Collège</h1>
+    <p id="subtitle">Tout ce dont vous avez besoin pour réussir votre année.</p>
+</section>
+
+<div class="container">
+    <div class="download-container">
+        <h2 id="ready">Téléchargement</h2>
+        <div class="btn-group">
+            <a href="2ac.apk" class="download-btn android" id="btn-android">Android (.APK)</a>
+            <a href="2ac.exe" class="download-btn windows" id="btn-windows">Windows (.EXE)</a>
+        </div>
+    </div>
+
+    <h2 class="section-title" id="features-h">Pourquoi nous choisir ?</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="icon">📶</div>
+            <h3 id="f1-t">Sans Internet</h3>
+            <p id="f1-d">Consultez vos cours même en plein désert.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">📈</div>
+            <h3 id="f2-t">Suivi Progrès</h3>
+            <p id="f2-d">Des quiz pour tester votre niveau après chaque leçon.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">✨</div>
+            <h3 id="f3-t">Gratuit</h3>
+            <p id="f3-d">Toutes les ressources sont gratuites à 100%.</p>
+        </div>
+    </div>
+
+    <h2 class="section-title" id="preview-h">Aperçu</h2>
+    <div class="screenshots-wrapper">
+        <div class="screen-card">
+            <img src="Screenshot_20260219-061305.png" alt="S1">
+            <p id="s1-t">Accueil</p>
+        </div>
+        <div class="screen-card">
+            <img src="Screenshot_20260219-061342.png" alt="S2">
+            <p id="s2-t">GPA</p>
+        </div>
+    </div>
+
+    <div class="contact-section">
+        <h2 id="contact-h">Avez-vous des questions ?</h2>
+        <p id="contact-p">Contactez l'équipe de support technique.</p>
+        <div class="contact-btns">
+            <a href="https://wa.me/212715657921" class="c-btn whatsapp">WhatsApp</a>
+            <a href="https://t.me/moha25412" class="c-btn telegram">Telegram</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2026 - 2AC Collège Team</p>
+</footer>
+
+<script>
+    const translations = {
+        fr: {
+            title: "Application 2AC Collège",
+            subtitle: "Tout ce dont vous avez besoin pour réussir votre année.",
+            ready: "Téléchargement",
+            android: "Android (.APK)",
+            windows: "Windows (.EXE)",
+            btn: "العربية",
+            featuresH: "Pourquoi nous choisir ?",
+            f1t: "Sans Internet", f1d: "Consultez vos cours même en plein désert.",
+            f2t: "Suivi Progrès", f2d: "Des quiz pour tester votre niveau après chaque leçon.",
+            f3t: "Gratuit", f3d: "Toutes les ressources sont gratuites à 100%.",
+            previewH: "Aperçu",
+            s1: "Accueil", s2: "Cours", s3: "Examens",
+            contactH: "Avez-vous des questions ?",
+            contactP: "Contactez l'équipe de support technique."
+        },
+        ar: {
+            title: "تطبيق الثانية إعدادي (2AC)",
+            subtitle: "كل ما تحتاجه للنجاح في عامك الدراسي في مكان واحد.",
+            ready: "تحميل التطبيق",
+            android: "تحميل لأجهزة أندرويد",
+            windows: "تحميل لأجهزة ويندوز",
+            btn: "Français",
+            featuresH: "لماذا تختار تطبيقنا؟",
+            f1t: "بدون إنترنت", f1d: "تصفح دروسك في أي وقت حتى بدون اتصال.",
+            f2t: "تتبع التقدم", f2d: "تمارين واختبارات لقياس مستواك الدراسي.",
+            f3t: "مجاني بالكامل", f3d: "جميع الدروس والتمارين متاحة مجاناً للجميع.",
+            previewH: "معاينة التطبيق",
+            s1: "الرئيسية", s2: "الدروس", s3: "الامتحانات",
+            contactH: "هل لديك أي استفسار؟",
+            contactP: "تواصل مع فريق الدعم الفني مباشرة."
+        }
+    };
+
+    let currentLang = 'fr';
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'fr' ? 'ar' : 'fr';
+        document.body.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+        
+        const langData = translations[currentLang];
+        
+        document.getElementById('title').innerText = langData.title;
+        document.getElementById('subtitle').innerText = langData.subtitle;
+        document.getElementById('ready').innerText = langData.ready;
+        document.getElementById('btn-android').innerText = langData.android;
+        document.getElementById('btn-windows').innerText = langData.windows;
+        document.getElementById('lang-btn').innerText = langData.btn;
+        document.getElementById('features-h').innerText = langData.featuresH;
+        document.getElementById('f1-t').innerText = langData.f1t;
+        document.getElementById('f1-d').innerText = langData.f1d;
+        document.getElementById('f2-t').innerText = langData.f2t;
+        document.getElementById('f2-d').innerText = langData.f2d;
+        document.getElementById('f3-t').innerText = langData.f3t;
+        document.getElementById('f3-d').innerText = langData.f3d;
+        document.getElementById('preview-h').innerText = langData.previewH;
+        document.getElementById('s1-t').innerText = langData.s1;
+        document.getElementById('s2-t').innerText = langData.s2;
+        document.getElementById('s3-t').innerText = langData.s3;
+        document.getElementById('contact-h').innerText = langData.contactH;
+        document.getElementById('contact-p').innerText = langData.contactP;
+    }
+</script>
+
+</body>
+</html>
