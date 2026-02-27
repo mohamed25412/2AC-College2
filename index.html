@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2AC Collège | خزانة الدروس الذكية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #00d2ff;
+            --secondary: #ff5252;
+            --bg-dark: #0a0e17;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* الخلفية المتحركة */
+        .magic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #16213e 0%, #0a0e17 100%);
+            z-index: -2;
+        }
+
+        /* نظام التبديل بين الصفحات */
+        .page {
+            display: none;
+            padding: 20px;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        /* تصميم صفحة الدروس */
+        .search-bar {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 12px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-bar input {
+            background: none;
+            border: none;
+            color: white;
+            width: 100%;
+            font-family: 'Cairo';
+            outline: none;
+        }
+
+        .lesson-category {
+            margin-bottom: 30px;
+        }
+
+        .lesson-category h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lesson-category h2 i {
+            color: var(--primary);
+        }
+
+        .file-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: 0.3s;
+        }
+
+        .file-card:active {
+            transform: scale(0.97);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .pdf-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 82, 82, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            font-size: 1.5rem;
+        }
+
+        .file-details h4 {
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .file-details span {
+            font-size: 0.75rem;
+            opacity: 0.6;
+        }
+
+        .btn-view {
+            color: var(--primary);
+            font-size: 1.2rem;
+            padding: 10px;
+        }
+
+        /* شريط التنقل السفلي */
+        .bottom-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            transition: 0.3s;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .nav-item i {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+
+        /* الهيرو في الرئيسية */
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-download {
+            background: linear-gradient(45deg, var(--primary), #00a8ff);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px auto;
+            width: fit-content;
+            box-shadow: 0 10px 20px rgba(0, 210, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .magic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #16213e 0%, #0a0e17 100%);
+            z-index: -2;
+        }
+
+        header {
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        /* قسم الهيرو الجديد - تركيز كامل على التحميل */
+        .hero {
+            padding: 60px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            line-height: 1.3;
+            font-weight: 900;
+            background: linear-gradient(45deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            opacity: 0.8;
+            font-size: 1.1rem;
+            max-width: 500px;
+        }
+
+        /* حاوية أزرار التحميل */
+        .download-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 320px;
+            margin-top: 30px;
+        }
+
+        .btn-store {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .google-play {
+            background: #000;
+            border: 1px solid #333;
+        }
+
+        .windows-pc {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .direct-apk {
+            background: linear-gradient(45deg, var(--primary), #00a8ff);
+        }
+
+        .btn-store:active {
+            transform: scale(0.95);
+        }
+
+        .btn-store i {
+            font-size: 1.8rem;
+        }
+
+        .btn-store div {
+            text-align: right;
+        }
+
+        .btn-store span {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: normal;
+            opacity: 0.7;
+        }
+
+        /* حسابي - نماذج وأقسام */
+        .glass-panel {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        #login-form .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #login-form label {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        #login-form input {
+            padding: 10px;
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            background: transparent;
+            color: white;
+            outline: none;
+        }
+
+        .account-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .account-section h4 {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 5px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        /* advanced account layout */
+        .acct-container {
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+            padding-top: 40px;
+        }
+
+        .acct-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            right: 20px;
+        }
+
+        .notification {
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .brand {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
+        .profile {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--bg-dark);
+            margin: 0 auto 10px;
+        }
+
+        .xp-bar {
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .xp-bar span {
+            font-size: 0.8rem;
+        }
+
+        .xp-bar .bar {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            height: 12px;
+            margin: 5px 0;
+            overflow: hidden;
+        }
+
+        .xp-bar .fill {
+            background: var(--primary);
+            height: 100%;
+            width: 0;
+            transition: width 0.3s;
+        }
+
+        .xp-bar .level {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 0.8rem;
+        }
+
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item i {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .stat-item .number {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .btn-logout {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            border-radius: 20px;
+            background: transparent;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .btn-logout:active {
+            transform: scale(0.95);
+        }
+
+        /* قسم المواد (تحت أزرار التحميل) */
+        .subjects-preview {
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .sub-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            border-radius: 25px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .sub-card i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        /* تأثير الحركة للزر الرئيسي */
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px var(--primary);
+            }
+
+            50% {
+                box-shadow: 0 0 20px var(--primary);
+            }
+
+            100% {
+                box-shadow: 0 0 5px var(--primary);
+            }
+        }
+
+        .direct-apk {
+            animation: glow 3s infinite;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="magic-bg"></div>
+
+    <header>
+        <div class="logo-box">
+            <i class="fas fa-graduation-cap"></i>
+            <span>2AC COLLÈGE</span>
+        </div>
+        <i class="fas fa-search" style="opacity: 0.7;"></i>
+    </header>
+
+    <div id="home" class="page active">
+        <section class="hero">
+            <h1 data-aos="zoom-out">تفوّقك الدراسي<br>في جيبك</h1>
+            <p data-aos="fade-up">حمّل تطبيق 2AC Collège الآن واستمتع بجميع ملخصات دروس الثانية إعدادي بدون عناء.</p>
+
+            <div class="download-options">
+
+                <a href="#" class="btn-store google-play" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fab fa-google-play"></i>
+                    <div>
+                        <span>GET IT ON</span>
+                        Google Play
+                    </div>
+                </a>
+
+                <a href="#" class="btn-store windows-pc" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fab fa-windows"></i>
+                    <div>
+                        <span>Download for</span>
+                        Windows PC
+                    </div>
+                </a>
+
+                <a href="#" class="btn-store direct-apk" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-download"></i>
+                    <div>
+                        <span>إصدار 2026 (Direct)</span>
+                        تحميل ملف APK
+                    </div>
+                </a>
+
+            </div>
+        </section>
+    </div>
+
+    <div id="lessons" class="page">
+        <h2 style="margin-bottom: 20px;">خزانة الدروس</h2>
+
+        <div class="search-bar">
+            <i class="fas fa-search" style="opacity: 0.5;"></i>
+            <input type="text" placeholder="ابحث عن درس، تمرين أو امتحان...">
+        </div>
+
+        <div class="lesson-category">
+            <h2><i class="fas fa-folder-open"></i> دروس الرياضيات</h2>
+
+            <div class="file-card" data-aos="fade-right">
+                <div class="file-info">
+                    <div class="pdf-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="file-details">
+                        <h4>الأعداد الجذرية (تقديم)</h4>
+                        <span>PDF • 1.2 MB</span>
+                    </div>
+                </div>
+                <a href="#" class="btn-view"><i class="fas fa-cloud-download-alt"></i></a>
+            </div>
+
+            <div class="file-card" data-aos="fade-right" data-aos-delay="100">
+                <div class="file-info">
+                    <div class="pdf-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="file-details">
+                        <h4>القوى - ملخص مركز</h4>
+                        <span>PDF • 850 KB</span>
+                    </div>
+                </div>
+                <a href="#" class="btn-view"><i class="fas fa-cloud-download-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="lesson-category">
+            <h2><i class="fas fa-flask"></i> دروس الفيزياء</h2>
+            <div class="file-card" data-aos="fade-right">
+                <div class="file-info">
+                    <div class="pdf-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="file-details">
+                        <h4>الهواء من حولنا</h4>
+                        <span>PDF • 2.1 MB</span>
+                    </div>
+                </div>
+                <a href="#" class="btn-view"><i class="fas fa-cloud-download-alt"></i></a>
+            </div>
+        </div>
+
+        <div style="height: 80px;"></div>
+    </div>
+    <div id="account" class="page">
+        <h2>حسابي</h2>
+        <!-- login form shown when user is not authenticated -->
+        <div id="login-form" class="glass-panel">
+            <h3>تسجيل الدخول</h3>
+            <div class="form-group">
+                <label for="username">اسم المستخدم</label>
+                <input type="text" id="username" placeholder="ادخل اسم المستخدم">
+            </div>
+            <div class="form-group">
+                <label for="password">كلمة المرور</label>
+                <input type="password" id="password" placeholder="ادخل كلمة المرور">
+            </div>
+            <button class="btn-store direct-apk" onclick="doLogin()">دخول</button>
+            <p style="margin-top:10px;text-align:center; font-size:0.9rem;">
+                ليس لديك حساب؟ <a href="registretion.html" style="color:var(--primary); text-decoration:underline;">سجل
+                    الآن</a>
+            </p>
+        </div>
+
+        <!-- account details shown after login -->
+        <div id="account-info" class="glass-panel acct-container" style="display:none;">
+                        <div class="profile">
+                <div class="avatar" id="avatar">MO</div>
+                <h3 id="acct-name">اسم المستخدم</h3>
+            </div>
+            <div class="xp-bar">
+                <span id="xp-text">XP 0 / 100</span>
+                <div class="bar">
+                    <div class="fill" id="xp-fill" style="width:10%"></div>
+                    <div class="level" id="level-text">المستوى 1</div>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <i class="fas fa-fire"></i>
+                    <div><span class="number" id="stat-active">0</span><small> يوم</small><br><small>نشاط</small></div>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-download"></i>
+                    <div><span class="number" id="stat-downloads">0</span><br><small>تحميلات</small></div>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-book"></i>
+                    <div><span class="number" id="stat-lessons">0</span><br><small>دروس</small></div>
+                </div>
+            </div>
+            <button class="btn-logout" onclick="logout()">تسجيل الخروج</button>
+        </div>
+    </div>
+
+    <nav class="bottom-bar">
+        <a href="javascript:void(0)" class="nav-item active" onclick="showPage('home', this)">
+            <i class="fas fa-home-alt"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="javascript:void(0)" class="nav-item" onclick="showPage('lessons', this)">
+            <i class="fas fa-book-open"></i>
+            <span>الدروس</span>
+        </a>
+        <a href="javascript:void(0)" class="nav-item" onclick="showPage('account', this)">
+            <i class="fas fa-user-circle"></i>
+            <span>حسابي</span>
+        </a>
+    </nav>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 600, once: true });
+
+        function showPage(pageId, element) {
+            // إخفاء كل الصفحات
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            // إظهار الصفحة المطلوبة
+            document.getElementById(pageId).classList.add('active');
+
+            // تحديث حالة الأيقونات في الشريط السفلي
+            if (element) {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                element.classList.add('active');
+            }
+
+            // العودة لأعلى الصفحة عند التبديل
+            window.scrollTo(0, 0);
+
+            // إذا كان المستخدم ينتقل إلى صفحة الحساب، فافحص المصادقة
+            if (pageId === 'account') {
+                checkAuth();
+            }
+        }
+
+        // ===== حساب المستخدم وتسجيل الدخول البسيط =====
+        function checkAuth() {
+            const logged = localStorage.getItem('loggedIn');
+            if (logged === 'true') {
+                showAccountInfo();
+            } else {
+                document.getElementById('login-form').style.display = 'block';
+                document.getElementById('account-info').style.display = 'none';
+            }
+        }
+
+        function doLogin() {
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            if (!user || !pass) {
+                alert('يرجى إدخال اسم المستخدم وكلمة المرور');
+                return;
+            }
+            const stored = localStorage.getItem('account_' + user);
+            if (!stored) {
+                alert('الحساب غير موجود');
+                return;
+            }
+            const acct = JSON.parse(stored);
+            if (acct.password !== pass) {
+                alert('كلمة المرور غير صحيحة');
+                return;
+            }
+            localStorage.setItem('loggedIn', 'true');
+            localStorage.setItem('username', user);
+            showAccountInfo();
+        }
+
+        function showAccountInfo() {
+            const user = localStorage.getItem('username') || '';
+            let name = user;
+            const stored = localStorage.getItem('account_' + user);
+            if (stored) {
+                const acct = JSON.parse(stored);
+                if (acct.name) name = acct.name;
+            }
+            document.getElementById('acct-name').textContent = name;
+            // avatar initials
+            const initials = name.split(' ').map(w => w.charAt(0)).join('').toUpperCase().substr(0, 2);
+            document.getElementById('avatar').textContent = initials;
+
+            // load or generate stats
+            let stats = JSON.parse(localStorage.getItem('stats') || '{}');
+            if (!stats.active) stats.active = 1;
+            if (!stats.downloads) stats.downloads = 0;
+            if (!stats.lessons) stats.lessons = 0;
+            localStorage.setItem('stats', JSON.stringify(stats));
+            document.getElementById('stat-active').textContent = stats.active;
+            document.getElementById('stat-downloads').textContent = stats.downloads;
+            document.getElementById('stat-lessons').textContent = stats.lessons;
+
+            // xp and level
+            let xpData = JSON.parse(localStorage.getItem('xp') || '{}');
+            if (!xpData.current) xpData.current = 0;
+            if (!xpData.next) xpData.next = 100;
+            if (!xpData.level) xpData.level = 1;
+            localStorage.setItem('xp', JSON.stringify(xpData));
+            document.getElementById('xp-text').textContent = `XP ${xpData.current} / ${xpData.next}`;
+            const pct = Math.min(100, (xpData.current / xpData.next) * 100);
+            document.getElementById('xp-fill').style.width = pct + '%';
+            document.getElementById('level-text').textContent = `المستوى ${xpData.level}`;
+
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('account-info').style.display = 'block';
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedIn');
+            localStorage.removeItem('username');
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('account-info').style.display = 'none';
+        }
+
+        // عند تحميل الصفحة، تحقق من حالة المصادقة
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+        });
+    </script>
+</body>
+
+</html>
