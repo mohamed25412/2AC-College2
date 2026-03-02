@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مركز الدعم الفني | 2AC Support Center</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --p: #00d2ff; --s: #ff5252; --a: #7000ff;
+            --bg: #05070a; --c: rgba(255, 255, 255, 0.05);
+            --b: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg); color: #fff; font-family: 'Cairo', sans-serif;
+            overflow-x: hidden; padding-bottom: 50px;
+        }
+
+        /* تأثير الخلفية الفضائية */
+        .stars-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 20% 30%, #16213e 0%, #05070a 100%);
+            z-index: -1;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+        /* الهيدر */
+        .help-header {
+            text-align: center; padding: 80px 0 40px;
+        }
+        .search-bar {
+            max-width: 600px; margin: 30px auto; position: relative;
+        }
+        .search-bar input {
+            width: 100%; padding: 18px 60px 18px 20px;
+            background: var(--c); border: 1px solid var(--b);
+            border-radius: 20px; color: white; font-family: 'Cairo';
+            outline: none; transition: 0.3s;
+        }
+        .search-bar input:focus { border-color: var(--p); box-shadow: 0 0 20px rgba(0,210,255,0.2); }
+        .search-bar i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--p); font-size: 1.2rem; }
+
+        /* الشبكة الرئيسية للمساعدة */
+        .help-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;
+        }
+        .help-card {
+            background: var(--c); border: 1px solid var(--b); border-radius: 30px;
+            padding: 30px; transition: 0.4s; backdrop-filter: blur(10px);
+        }
+        .help-card:hover { transform: translateY(-10px); border-color: var(--p); }
+        .icon-box {
+            width: 60px; height: 60px; background: rgba(0, 210, 255, 0.1);
+            border-radius: 15px; display: flex; align-items: center; justify-content: center;
+            color: var(--p); font-size: 1.5rem; margin-bottom: 20px;
+        }
+
+        /* الأكورديون (الأسئلة) */
+        .faq-box { margin-top: 60px; }
+        .faq-item {
+            background: var(--c); border-radius: 20px; margin-bottom: 15px;
+            border: 1px solid var(--b); overflow: hidden;
+        }
+        .faq-q {
+            padding: 20px; cursor: pointer; display: flex; justify-content: space-between;
+            font-weight: bold; transition: 0.3s;
+        }
+        .faq-q:hover { background: rgba(255,255,255,0.02); }
+        .faq-a {
+            padding: 0 20px; max-height: 0; overflow: hidden; transition: 0.4s cubic-bezier(0,1,0,1);
+            opacity: 0; font-size: 0.9rem; color: #ccc;
+        }
+        .faq-item.active .faq-a { max-height: 500px; padding: 0 20px 20px; opacity: 1; }
+
+        /* نموذج المراسلة (Ticket) */
+        .contact-form {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03), transparent);
+            border-radius: 40px; padding: 40px; border: 1px solid var(--b); margin-top: 80px;
+            justify-content: center; display: flex; flex-direction: column; align-items: center;
+        }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        input, textarea, select {
+            width: 100%; padding: 15px; background: rgba(0,0,0,0.3);
+            border: 1px solid var(--b); border-radius: 12px; color: white;
+            font-family: 'Cairo'; margin-bottom: 20px;
+        }
+        .send-btn {
+            background: var(--p);
+            color: var(--bg);
+            border: none;
+            padding: 15px 60px; /* زدت العرض قليلاً ليبدو أجمل */
+            border-radius: 50px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Cairo';
+            box-shadow: 0 10px 20px rgba(0, 210, 255, 0.2);
+        }
+        .send-btn:hover {
+            box-shadow: 0 0 30px var(--p);
+            transform: scale(1.05) translateY(-3px);
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center; /* التوسط أفقيًا */
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        /* الجات بوت العائم */
+        .chat-widget {
+            position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px;
+            background: var(--p); border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 1.5rem;
+            cursor: pointer; box-shadow: 0 10px 30px rgba(0,210,255,0.4); z-index: 100;
+        }
+
+        /* التجاوب مع الجوال */
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 2rem; }
+            .help-card { padding: 20px; }
+        }
+
+        /* زر الرئيسية الاحترافي (الذي طلبته) */
+        .btn-back {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: linear-gradient(45deg, #00d2ff, #7000ff);
+            border: none; color: #fff; padding: 12px 25px;
+            border-radius: 15px; font-weight: 900;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+            transition: 0.3s; cursor: pointer; text-decoration: none;
+            margin-bottom: 40px;
+        }
+        .btn-back:hover { transform: scale(1.05); box-shadow: 0 0 20px #00d2ff; }
+    </style>
+</head>
+<body>
+
+    <div class="stars-bg"></div>
+
+    <div class="container">
+        <header class="help-header">
+            <h1 data-aos="fade-up">كيف يمكننا <span>مساعدتك</span> اليوم؟</h1>
+            <div class="search-bar" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="ابحث عن دروس، حلول، أو مشاكل تقنية...">
+            </div>
+        </header>
+
+        <div class="help-grid">
+            <div class="help-card" data-aos="zoom-in">
+                <div class="icon-box"><i class="fas fa-book"></i></div>
+                <h3>دليل الاستخدام</h3>
+                <p style="font-size: 0.9rem; opacity: 0.6; margin-top: 10px;">تعلم كيف تصل للدروس وتحمل الملفات بأسرع طريقة ممكنة.</p>
+                <a href="#" style="color: var(--p); display: block; margin-top: 15px; text-decoration: none;">اقرأ المزيد ←</a>
+            </div>
+
+            <div class="help-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="icon-box"><i class="fas fa-user-shield"></i></div>
+                <h3>سياسة الخصوصية</h3>
+                <p style="font-size: 0.9rem; opacity: 0.6; margin-top: 10px;">تعرف على كيفية حماية بياناتك واستخدامها في تطبيقنا وموقعنا.</p>
+                <a href="#" style="color: var(--p); display: block; margin-top: 15px; text-decoration: none;">اقرأ المزيد ←</a>
+            </div>
+        </div>
+
+        <div class="faq-box">
+            <h2 style="margin-bottom: 30px; text-align: center;">الأسئلة الأكثر شيوعاً</h2>
+            
+            <div class="faq-item">
+                <div class="faq-q">لماذا لا تفتح ملفات PDF على هاتفي؟ <i class="fas fa-plus"></i></div>
+                <div class="faq-a">تأكد من تثبيت تطبيق "Google Drive" أو أي قارئ PDF. إذا استمرت المشكلة، جرب التحميل من متصفح Chrome.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">كيف أقوم بتحديث التطبيق لأحدث إصدار؟ <i class="fas fa-plus"></i></div>
+                <div class="faq-a">توجه إلى صفحة "التحميل" في موقعنا وحمل ملف APK الجديد وقم بتثبيته فوق الإصدار القديم مباشرة.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">هل يمكنني استخدام الموقع بدون إنترنت؟ <i class="fas fa-plus"></i></div>
+                <div class="faq-a">الموقع يحتاج إنترنت للتصفح، لكن يمكنك تحميل الدروس (PDF) واستخدامها "أوفلاين" في أي وقت.</div>
+            </div>
+        </div>
+
+        <div class="contact-form" data-aos="fade-up">
+            <h2 style="margin-bottom: 10px;">أرسل لنا رسالة مباشرة</h2>
+            <p style="opacity: 0.6; margin-bottom: 30px;">فريق الدعم الفني سيرد عليك في أقل من 24 ساعة.</p>
+            
+            <form id="helpForm">
+                <div class="form-grid">
+                    <input type="text" placeholder="الاسم الكامل" required>
+                    <input type="email" placeholder="البريد الإلكتروني" required>
+                </div>
+                <select>
+                    <option>نوع المشكلة</option>
+                    <option>مشكلة في التحميل</option>
+                    <option>مشكلة في الحساب</option>
+                    <option>اقتراح لدرس جديد</option>
+                    <option>أخرى</option>
+                </select>
+                <textarea rows="5" placeholder="اكتب تفاصيل مشكلتك هنا..."></textarea>
+                <button type="button" class="send-btn" onclick="sendMsg()">إرسال التذكرة</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="chat-widget" onclick="alert('المساعد الذكي قيد التطوير حالياً!')">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // منطق الأسئلة الشائعة
+        document.querySelectorAll('.faq-q').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                item.classList.toggle('active');
+                const icon = q.querySelector('i');
+                icon.classList.toggle('fa-plus');
+                icon.classList.toggle('fa-minus');
+            });
+        });
+
+        function sendMsg() {
+            alert('تم إرسال رسالتك بنجاح! رقم التذكرة: #2AC-' + Math.floor(Math.random()*9000));
+        }
+    </script>
+</body>
+</html>
