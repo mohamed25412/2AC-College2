@@ -609,19 +609,11 @@
                     </div>
                 </a>
 
-                <a href="#" class="btn-store windows-pc" data-aos="fade-up" data-aos-delay="200">
-                    <i class="fab fa-windows"></i>
-                    <div>
-                        <span>Download for</span>
-                        Windows PC
-                    </div>
-                </a>
-
-                <a href="#" class="btn-store direct-apk" data-aos="fade-up" data-aos-delay="300">
+                <a href="download.html" class="btn-store direct-apk" data-aos="fade-up" data-aos-delay="300">
                     <i class="fas fa-download"></i>
                     <div>
-                        <span>إصدار 2026 (Direct)</span>
-                        تحميل ملف APK
+                        <span>إصدار 2026</span>
+                        تحميل مباشر
                     </div>
                 </a>
 
@@ -638,7 +630,7 @@
         </div>
 
         <div class="lesson-category">
-            <h2><i class="fas fa-folder-open"></i> دروس الرياضيات</h2>
+            <h2><i class="fas fa-calculator"></i> دروس الرياضيات</h2>
 
             <div class="file-card" data-aos="fade-right">
                 <div class="file-info">
@@ -648,7 +640,7 @@
                         <span>PDF • 1.2 MB</span>
                     </div>
                 </div>
-                <a href="#" class="btn-view"><i class="fas fa-cloud-download-alt"></i></a>
+                <a href="https://mohamed25412.github.io/2AC-College2/%D8%AA%D9%82%D8%AF%D9%8A%D9%85-%D8%A7%D9%84%D8%A7%D8%B9%D8%AF%D8%A7%D8%AF-%D8%A7%D9%84%D8%AC%D8%B0%D8%B1%D9%8A%D8%A9.pdf" class="btn-view"><i class="fas fa-cloud-download-alt"></i></a>
             </div>
 
             <div class="file-card" data-aos="fade-right" data-aos-delay="100">
@@ -679,56 +671,6 @@
 
         <div style="height: 80px;"></div>
     </div>
-    <div id="account" class="page">
-        <h2>حسابي</h2>
-        <!-- login form shown when user is not authenticated -->
-        <div id="login-form" class="glass-panel">
-            <h3>تسجيل الدخول</h3>
-            <div class="form-group">
-                <label for="username">اسم المستخدم</label>
-                <input type="text" id="username" placeholder="ادخل اسم المستخدم">
-            </div>
-            <div class="form-group">
-                <label for="password">كلمة المرور</label>
-                <input type="password" id="password" placeholder="ادخل كلمة المرور">
-            </div>
-            <button class="btn-store direct-apk" onclick="doLogin()">دخول</button>
-            <p style="margin-top:10px;text-align:center; font-size:0.9rem;">
-                ليس لديك حساب؟ <a href="registretion.html" style="color:var(--primary); text-decoration:underline;">سجل
-                    الآن</a>
-            </p>
-        </div>
-
-        <!-- account details shown after login -->
-        <div id="account-info" class="glass-panel acct-container" style="display:none;">
-                        <div class="profile">
-                <div class="avatar" id="avatar">MO</div>
-                <h3 id="acct-name">اسم المستخدم</h3>
-            </div>
-            <div class="xp-bar">
-                <span id="xp-text">XP 0 / 100</span>
-                <div class="bar">
-                    <div class="fill" id="xp-fill" style="width:10%"></div>
-                    <div class="level" id="level-text">المستوى 1</div>
-                </div>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <i class="fas fa-fire"></i>
-                    <div><span class="number" id="stat-active">0</span><small> يوم</small><br><small>نشاط</small></div>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-download"></i>
-                    <div><span class="number" id="stat-downloads">0</span><br><small>تحميلات</small></div>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-book"></i>
-                    <div><span class="number" id="stat-lessons">0</span><br><small>دروس</small></div>
-                </div>
-            </div>
-            <button class="btn-logout" onclick="logout()">تسجيل الخروج</button>
-        </div>
-    </div>
 
     <nav class="bottom-bar">
         <a href="javascript:void(0)" class="nav-item active" onclick="showPage('home', this)">
@@ -738,10 +680,6 @@
         <a href="javascript:void(0)" class="nav-item" onclick="showPage('lessons', this)">
             <i class="fas fa-book-open"></i>
             <span>الدروس</span>
-        </a>
-        <a href="javascript:void(0)" class="nav-item" onclick="showPage('account', this)">
-            <i class="fas fa-user-circle"></i>
-            <span>حسابي</span>
         </a>
     </nav>
 
@@ -764,94 +702,9 @@
             // العودة لأعلى الصفحة عند التبديل
             window.scrollTo(0, 0);
 
-            // إذا كان المستخدم ينتقل إلى صفحة الحساب، فافحص المصادقة
-            if (pageId === 'account') {
-                checkAuth();
-            }
+            // إعادة تفعيل AOS للصفحة الجديدة
+            AOS.refresh();
         }
-
-        // ===== حساب المستخدم وتسجيل الدخول البسيط =====
-        function checkAuth() {
-            const logged = localStorage.getItem('loggedIn');
-            if (logged === 'true') {
-                showAccountInfo();
-            } else {
-                document.getElementById('login-form').style.display = 'block';
-                document.getElementById('account-info').style.display = 'none';
-            }
-        }
-
-        function doLogin() {
-            const user = document.getElementById('username').value.trim();
-            const pass = document.getElementById('password').value.trim();
-            if (!user || !pass) {
-                alert('يرجى إدخال اسم المستخدم وكلمة المرور');
-                return;
-            }
-            const stored = localStorage.getItem('account_' + user);
-            if (!stored) {
-                alert('الحساب غير موجود');
-                return;
-            }
-            const acct = JSON.parse(stored);
-            if (acct.password !== pass) {
-                alert('كلمة المرور غير صحيحة');
-                return;
-            }
-            localStorage.setItem('loggedIn', 'true');
-            localStorage.setItem('username', user);
-            showAccountInfo();
-        }
-
-        function showAccountInfo() {
-            const user = localStorage.getItem('username') || '';
-            let name = user;
-            const stored = localStorage.getItem('account_' + user);
-            if (stored) {
-                const acct = JSON.parse(stored);
-                if (acct.name) name = acct.name;
-            }
-            document.getElementById('acct-name').textContent = name;
-            // avatar initials
-            const initials = name.split(' ').map(w => w.charAt(0)).join('').toUpperCase().substr(0, 2);
-            document.getElementById('avatar').textContent = initials;
-
-            // load or generate stats
-            let stats = JSON.parse(localStorage.getItem('stats') || '{}');
-            if (!stats.active) stats.active = 1;
-            if (!stats.downloads) stats.downloads = 0;
-            if (!stats.lessons) stats.lessons = 0;
-            localStorage.setItem('stats', JSON.stringify(stats));
-            document.getElementById('stat-active').textContent = stats.active;
-            document.getElementById('stat-downloads').textContent = stats.downloads;
-            document.getElementById('stat-lessons').textContent = stats.lessons;
-
-            // xp and level
-            let xpData = JSON.parse(localStorage.getItem('xp') || '{}');
-            if (!xpData.current) xpData.current = 0;
-            if (!xpData.next) xpData.next = 100;
-            if (!xpData.level) xpData.level = 1;
-            localStorage.setItem('xp', JSON.stringify(xpData));
-            document.getElementById('xp-text').textContent = `XP ${xpData.current} / ${xpData.next}`;
-            const pct = Math.min(100, (xpData.current / xpData.next) * 100);
-            document.getElementById('xp-fill').style.width = pct + '%';
-            document.getElementById('level-text').textContent = `المستوى ${xpData.level}`;
-
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('account-info').style.display = 'block';
-        }
-
-        function logout() {
-            localStorage.removeItem('loggedIn');
-            localStorage.removeItem('username');
-            document.getElementById('login-form').style.display = 'block';
-            document.getElementById('account-info').style.display = 'none';
-        }
-
-        // عند تحميل الصفحة، تحقق من حالة المصادقة
-        document.addEventListener('DOMContentLoaded', () => {
-            checkAuth();
-        });
     </script>
 </body>
 
